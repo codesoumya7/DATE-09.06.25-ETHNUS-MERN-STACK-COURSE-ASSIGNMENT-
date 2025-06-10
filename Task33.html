@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Weather App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #921ef7, #d30863);
+      text-align: center;
+      padding: 30px;
+      color: #033e6b;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 30px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .weather-info {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 15px;
+      display: inline-block;
+      width: 350px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .weather-info div {
+      margin: 15px 0;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    input, button {
+      padding: 12px;
+      font-size: 18px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+    }
+
+    input {
+      width: 240px;
+      margin-right: 10px;
+    }
+
+    button {
+      background-color: #3b2fa7;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #0277bd;
+    }
+
+    #currentTime {
+      margin-top: 25px;
+      font-size: 18px;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simple Weather App</h1>
+
+  <div class="weather-info">
+    <div id="temperature">Temp: 30°C</div>
+    <div id="location">Location: Bhopal</div>
+    <div id="datetime">Time: 12:00 Monday</div>
+    <div id="condition">Condition: Sunny</div>
+  </div>
+
+  <div style="margin-top: 30px;">
+    <input type="text" id="cityInput" placeholder="Enter city name">
+    <button onclick="searchWeather()">Search</button>
+  </div>
+
+  <div id="currentTime"></div>
+
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const time = now.toLocaleTimeString();
+      document.getElementById("currentTime").textContent = "Current Time: " + time;
+    }
+
+    function updateDateTime() {
+      const now = new Date();
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const day = now.toLocaleDateString('en-US', { weekday: 'long' });
+      document.getElementById("datetime").textContent = "Time: " + time + " " + day;
+    }
+
+    function searchWeather() {
+      const city = document.getElementById("cityInput").value;
+
+      if (city === "") {
+        alert("Please enter a city name");
+        return;
+      }
+
+      const tempOptions = [28, 32, 35, 28, 31, 30, 34];
+      const conditions = ["Sunny", "Cloudy", "Rainy", "Mist", "Clear", "Windy"];
+
+      const temp = tempOptions[Math.floor(Math.random() * tempOptions.length)];
+      const condition = conditions[Math.floor(Math.random() * conditions.length)];
+
+      document.getElementById("temperature").textContent = "Temp: " + temp + "°C";
+      document.getElementById("location").textContent = "Location: " + city;
+      document.getElementById("condition").textContent = "Condition: " + condition;
+
+      document.getElementById("cityInput").value = "";
+    }
+
+    document.getElementById("cityInput").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        searchWeather();
+      }
+    });
+
+    updateTime();
+    updateDateTime();
+
+    setInterval(updateTime, 1000);
+    setInterval(updateDateTime, 60000);
+  </script>
+
+</body>
+</html>
